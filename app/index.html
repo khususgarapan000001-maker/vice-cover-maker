@@ -1,23 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
-<link rel="stylesheet" href="./style.css">
+<title>Vice Cover Maker — GTA-style cover art, offline</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">VC</span>
+    <div>
+      <h1>Vice Cover Maker</h1>
+      <p>Turn your photos into a Vice City-style multi-panel cover. 100% offline — photos never leave your machine.</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <label class="btn ghost" for="filePicker">+ Add your photos</label>
+    <input id="filePicker" type="file" accept="image/*" multiple hidden>
+    <button id="exportBtn" class="btn primary">Export PNG</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <section class="preview-col">
+    <div class="preview-frame">
+      <canvas id="coverCanvas" width="960" height="540" aria-label="Live cover preview"></canvas>
+      <p class="hint">Click a panel to select it, then click a photo below to put it there. Drag the selected panel to reposition the photo.</p>
+    </div>
+    <div class="samples">
+      <span class="samples-label">Your photos &amp; samples — click to fill the selected panel:</span>
+      <div id="photoStrip" class="photo-strip"></div>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <aside class="controls">
+    <section class="panel">
+      <h2>1 · Layout</h2>
+      <div class="segmented" id="layoutSeg" role="group" aria-label="Layout">
+        <button data-layout="hero4" class="active">Hero + 4</button>
+        <button data-layout="duo">Split Duo</button>
+        <button data-layout="fullbleed">Full Bleed</button>
+      </div>
+      <p class="note">Hero + 4: one big hero panel with four small panels. Split Duo: two tall panels over a strip. Full Bleed: one photo, caption band.</p>
+    </section>
+
+    <section class="panel">
+      <h2>2 · Colour grade</h2>
+      <div class="segmented" id="gradeSeg" role="group" aria-label="Colour grade">
+        <button data-grade="sunset" class="active">Vice Sunset</button>
+        <button data-grade="neon">Neon Nights</button>
+        <button data-grade="gold">Palm Gold</button>
+        <button data-grade="noir">Mono Noir</button>
+      </div>
+      <label class="slider-row">Grade intensity
+        <input id="gradeIntensity" type="range" min="0" max="100" value="80">
+        <span id="gradeIntensityVal">80%</span>
+      </label>
+    </section>
+
+    <section class="panel">
+      <h2>3 · Selected panel</h2>
+      <label class="slider-row">Zoom
+        <input id="panelZoom" type="range" min="100" max="300" value="110">
+        <span id="panelZoomVal">1.10×</span>
+      </label>
+      <div class="btn-row">
+        <button id="fillAllBtn" class="btn">Fill all panels with one photo</button>
+        <button id="resetPanelBtn" class="btn ghost">Reset panel</button>
+      </div>
+      <p class="note">Drag inside the selected panel on the preview to move the photo around.</p>
+    </section>
+
+    <section class="panel">
+      <h2>4 · Caption</h2>
+      <label class="field">Big title
+        <input id="titleInput" type="text" value="SUNSET KEYS" maxlength="24">
+      </label>
+      <label class="field">Script subtitle
+        <input id="subtitleInput" type="text" value="every street is a stage" maxlength="48">
+      </label>
+      <label class="field">Tagline strip
+        <input id="taglineInput" type="text" value="ONE CITY. EVERY SECRET HAS A VIEW." maxlength="64">
+      </label>
+      <label class="field">Badge text
+        <input id="badgeInput" type="text" value="EST. 2026" maxlength="16">
+      </label>
+    </section>
+
+    <section class="panel">
+      <h2>5 · Export</h2>
+      <label class="field">Post size
+        <select id="exportSize">
+          <option value="1920x1080" selected>1920 × 1080 — landscape</option>
+          <option value="1080x1080">1080 × 1080 — square</option>
+          <option value="1080x1350">1080 × 1350 — portrait</option>
+        </select>
+      </label>
+      <button id="exportBtn2" class="btn primary wide">Download cover PNG</button>
+      <p class="note">Exact-size PNG, ready to post. No watermark, no upload.</p>
+    </section>
+  </aside>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<footer class="foot">
+  <span>Original art only — no Rockstar logos, artwork or fonts. Display type: Anton, script: Caveat, UI: Archivo (SIL Open Font License).</span>
+</footer>
+
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
