@@ -3,108 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Cover Maker — GTA-style cover art, offline</title>
+<title>Leonida Nights — GTA 6 Cover Studio</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">
-    <span class="brand-mark">VC</span>
+  <div class="brand"><span class="brand-mark">LN</span>
     <div>
-      <h1>Vice Cover Maker</h1>
-      <p>Turn your photos into a Vice City-style multi-panel cover. 100% offline — photos never leave your machine.</p>
+      <h1>Leonida Nights</h1>
+      <p>GTA 6 Cover Studio &mdash; fan-made poster maker, works offline</p>
     </div>
   </div>
   <div class="top-actions">
-    <label class="btn ghost" for="filePicker">+ Add your photos</label>
-    <input id="filePicker" type="file" accept="image/*" multiple hidden>
-    <button id="exportBtn" class="btn primary">Export PNG</button>
+    <button id="fillAllBtn" type="button" class="btn ghost">Fill all panels with one photo</button>
+    <button id="exportBtn" type="button" class="btn primary">Export PNG</button>
   </div>
 </header>
 
-<main class="workspace">
+<main class="studio">
   <section class="preview-col">
-    <div class="preview-frame">
-      <canvas id="coverCanvas" width="960" height="540" aria-label="Live cover preview"></canvas>
-      <p class="hint">Click a panel to select it, then click a photo below to put it there. Drag the selected panel to reposition the photo.</p>
+    <div class="canvas-wrap">
+      <canvas id="coverCanvas" width="1080" height="1080"></canvas>
+      <div id="photoHint" class="photo-hint">Click a panel to select it &mdash; drag to move the photo, scroll to zoom</div>
     </div>
-    <div class="samples">
-      <span class="samples-label">Your photos &amp; samples — click to fill the selected panel:</span>
-      <div id="photoStrip" class="photo-strip"></div>
+    <div class="panel-bar" id="panelBar">
+      <span id="panelLabel">Panel 1 &mdash; Neon Street</span>
+      <label>Zoom <input id="zoomSlider" type="range" min="1" max="3" step="0.01" value="1"></label>
+      <select id="panelPhoto" aria-label="Photo for selected panel"></select>
+      <button id="resetPanelBtn" type="button" class="btn small">Reset panel</button>
     </div>
   </section>
 
   <aside class="controls">
-    <section class="panel">
-      <h2>1 · Layout</h2>
-      <div class="segmented" id="layoutSeg" role="group" aria-label="Layout">
-        <button data-layout="hero4" class="active">Hero + 4</button>
-        <button data-layout="duo">Split Duo</button>
-        <button data-layout="fullbleed">Full Bleed</button>
+    <section class="group" id="photosGroup">
+      <h2>1 &middot; Photos</h2>
+      <p class="hint">Your photos never leave this machine. Pick a sample or upload your own.</p>
+      <div class="samples" id="sampleRow"></div>
+      <label class="btn upload">Upload photos&hellip;
+        <input id="filePicker" type="file" accept="image/*" multiple hidden>
+      </label>
+    </section>
+
+    <section class="group" id="layoutGroup">
+      <h2>2 &middot; Layout</h2>
+      <div class="layout-grid" id="layoutGrid"></div>
+    </section>
+
+    <section class="group" id="gradeGroup">
+      <h2>3 &middot; Colour grade</h2>
+      <div class="grade-grid" id="gradeGrid"></div>
+      <label class="slider-row">Intensity
+        <input id="intensitySlider" type="range" min="0" max="1" step="0.05" value="0.85">
+        <span id="intensityVal">85%</span>
+      </label>
+    </section>
+
+    <section class="group" id="textGroup">
+      <h2>4 &middot; Lettering</h2>
+      <div class="field-row">
+        <label>Title line 1 <input id="title1" type="text" value="LEONIDA" maxlength="24"></label>
+        <label>Title line 2 <input id="title2" type="text" value="NIGHTS" maxlength="24"></label>
       </div>
-      <p class="note">Hero + 4: one big hero panel with four small panels. Split Duo: two tall panels over a strip. Full Bleed: one photo, caption band.</p>
-    </section>
-
-    <section class="panel">
-      <h2>2 · Colour grade</h2>
-      <div class="segmented" id="gradeSeg" role="group" aria-label="Colour grade">
-        <button data-grade="sunset" class="active">Vice Sunset</button>
-        <button data-grade="neon">Neon Nights</button>
-        <button data-grade="gold">Palm Gold</button>
-        <button data-grade="noir">Mono Noir</button>
+      <label>Script subtitle <input id="subtitle" type="text" value="where the sun never sets on the hustle" maxlength="80"></label>
+      <label>Tagline strip <input id="tagline" type="text" value="ONE CITY. EVERY SECRET HAS A VIEW." maxlength="90"></label>
+      <label>Billing block <input id="billing" type="text" value="A FAN-MADE POSTER STUDIO &bull; NOT AFFILIATED WITH ROCKSTAR GAMES &bull; LEONIDA NIGHTS" maxlength="140"></label>
+      <div class="field-row3">
+        <label>Seal text <input id="sealText" type="text" value="EST. 2026 &bull; LEONIDA" maxlength="40"></label>
+        <label>Starburst <input id="burstText" type="text" value="HOT IN LEONIDA" maxlength="24"></label>
+        <label>Ribbon <input id="ribbonText" type="text" value="LEONIDA" maxlength="24"></label>
       </div>
-      <label class="slider-row">Grade intensity
-        <input id="gradeIntensity" type="range" min="0" max="100" value="80">
-        <span id="gradeIntensityVal">80%</span>
-      </label>
-    </section>
-
-    <section class="panel">
-      <h2>3 · Selected panel</h2>
-      <label class="slider-row">Zoom
-        <input id="panelZoom" type="range" min="100" max="300" value="110">
-        <span id="panelZoomVal">1.10×</span>
-      </label>
-      <div class="btn-row">
-        <button id="fillAllBtn" class="btn">Fill all panels with one photo</button>
-        <button id="resetPanelBtn" class="btn ghost">Reset panel</button>
+      <div class="toggles">
+        <label class="check"><input id="gradientToggle" type="checkbox"> Gradient title</label>
+        <label class="check"><input id="halftoneToggle" type="checkbox" checked> Halftone texture</label>
+        <label class="check"><input id="sealToggle" type="checkbox" checked> Seal / stamp</label>
+        <label class="check"><input id="burstToggle" type="checkbox" checked> Star-burst badge</label>
+        <label class="check"><input id="ribbonToggle" type="checkbox" checked> Corner ribbon</label>
+        <label class="check"><input id="calloutToggle" type="checkbox" checked> Callouts</label>
       </div>
-      <p class="note">Drag inside the selected panel on the preview to move the photo around.</p>
+      <div class="callouts field-row3" id="calloutInputs">
+        <label>Callout 1 <input id="callout0" type="text" value="THE GETAWAY" maxlength="24"></label>
+        <label>Callout 2 <input id="callout1" type="text" value="OCEAN DRIVE" maxlength="24"></label>
+        <label>Callout 3 <input id="callout2" type="text" value="LAST LIGHT" maxlength="24"></label>
+      </div>
     </section>
 
-    <section class="panel">
-      <h2>4 · Caption</h2>
-      <label class="field">Big title
-        <input id="titleInput" type="text" value="SUNSET KEYS" maxlength="24">
-      </label>
-      <label class="field">Script subtitle
-        <input id="subtitleInput" type="text" value="every street is a stage" maxlength="48">
-      </label>
-      <label class="field">Tagline strip
-        <input id="taglineInput" type="text" value="ONE CITY. EVERY SECRET HAS A VIEW." maxlength="64">
-      </label>
-      <label class="field">Badge text
-        <input id="badgeInput" type="text" value="EST. 2026" maxlength="16">
-      </label>
-    </section>
-
-    <section class="panel">
-      <h2>5 · Export</h2>
-      <label class="field">Post size
-        <select id="exportSize">
-          <option value="1920x1080" selected>1920 × 1080 — landscape</option>
-          <option value="1080x1080">1080 × 1080 — square</option>
-          <option value="1080x1350">1080 × 1350 — portrait</option>
-        </select>
-      </label>
-      <button id="exportBtn2" class="btn primary wide">Download cover PNG</button>
-      <p class="note">Exact-size PNG, ready to post. No watermark, no upload.</p>
+    <section class="group export-group" id="exportGroup">
+      <h2>5 &middot; Export size</h2>
+      <div class="size-row" role="radiogroup" aria-label="Export size">
+        <label class="size-opt"><input type="radio" name="exportSize" value="1080x1080" checked> <b>1080 &times; 1080</b><span>Square post</span></label>
+        <label class="size-opt"><input type="radio" name="exportSize" value="1080x1350"> <b>1080 &times; 1350</b><span>Portrait post</span></label>
+        <label class="size-opt"><input type="radio" name="exportSize" value="1920x1080"> <b>1920 &times; 1080</b><span>Wide cover</span></label>
+      </div>
+      <button id="exportBtn2" type="button" class="btn primary big">Download PNG</button>
+      <p class="hint">One click &mdash; the exact-size PNG downloads straight from your browser.</p>
     </section>
   </aside>
 </main>
 
 <footer class="foot">
-  <span>Original art only — no Rockstar logos, artwork or fonts. Display type: Anton, script: Caveat, UI: Archivo (SIL Open Font License).</span>
+  <p>Leonida Nights is a fan-made poster studio. Not affiliated with Rockstar Games. Fonts: Anton, Caveat &amp; Archivo under the SIL Open Font License (see app/fonts/OFL.txt). Sample photos are AI-made for make.fun or generated for this entry.</p>
 </footer>
 
 <script type="module" src="src/main.js"></script>
