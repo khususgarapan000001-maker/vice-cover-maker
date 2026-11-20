@@ -1,10 +1,8 @@
-// Leonida Nights — GTA 6 cover studio entry for gta6-cover-art-01.
-// Node 22, standard library only. Hands the app in: copies app/ and
-// screenshots/ from beside this file to /output (or $MAKEFUN_OUTPUT_DIR)
-// and writes /output/dossier.json with the vendored make.fun library.
-//
-// Test it locally (writes out/ next to this file, ignored by git):
-//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+// Leonida Nights entry program (Node 22, standard library only).
+// Hands the app in: copies app/ and screenshots/ from beside this file to
+// /output (or $MAKEFUN_OUTPUT_DIR) and writes /output/dossier.json with the
+// vendored make.fun library, exactly as the kit's starter does.
+// The run is deterministic: same input files, same output bytes.
 
 import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -21,10 +19,6 @@ if (existsSync(join(here, 'screenshots'))) {
   cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
 }
 
-// The scorer's own caps: only text_max_bytes shapes the bytes; the others
-// refuse an entry the scorer would refuse (more than 4 screenshots or one
-// over 256 KiB; more than 993 files in app/ or 48 MiB of app files in all,
-// or a path under app/ over 1000 bytes).
 writeFileSync(
   join(out, 'dossier.json'),
   buildDossier(out, {

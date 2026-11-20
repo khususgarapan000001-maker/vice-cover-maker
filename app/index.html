@@ -12,91 +12,75 @@
     <span class="brand-mark">LN</span>
     <div>
       <h1>LEONIDA NIGHTS</h1>
-      <p>GTA 6 Cover Studio — turn your photos into poster cover art</p>
+      <p>GTA 6 cover art studio — turn your photos into a poster</p>
     </div>
   </div>
-  <div class="top-actions">
-    <span class="offline-badge">100% OFFLINE — photos never leave your machine</span>
+  <div class="export-box">
+    <label for="sizeSelect">Export size</label>
+    <select id="sizeSelect">
+      <option value="1920x1080">1920 × 1080 — landscape</option>
+      <option value="1080x1080">1080 × 1080 — square</option>
+      <option value="1080x1350">1080 × 1350 — portrait</option>
+    </select>
+    <button id="exportBtn" class="primary">Export PNG</button>
   </div>
 </header>
 
-<main class="studio">
-  <section class="controls" aria-label="Cover controls">
-    <div class="group">
+<main class="workspace">
+  <aside class="controls">
+    <section>
       <h2>1 · Photos</h2>
-      <label class="file-btn" for="photoInput">+ Add your photos…</label>
-      <input type="file" id="photoInput" accept="image/*" multiple hidden>
-      <p class="hint">Click a panel in the preview, then pick a photo for it. Drag a photo to move it, use zoom to crop.</p>
-      <div class="samples" id="samples">
-        <button type="button" data-sample="samples/boulevard.jpg"><img src="samples/boulevard.jpg" alt="Sunset boulevard sample"><span>Sunset Blvd</span></button>
-        <button type="button" data-sample="samples/neon-street.jpg"><img src="samples/neon-street.jpg" alt="Neon street sample"><span>Neon Street</span></button>
-        <button type="button" data-sample="samples/pier.jpg"><img src="samples/pier.jpg" alt="Palm pier sample"><span>Palm Pier</span></button>
-      </div>
-      <button type="button" class="btn" id="fillAllBtn">Fill all panels with one photo</button>
-      <div class="panel-tools">
-        <label>Selected panel: <strong id="panelLabel">Hero (1)</strong></label>
-        <label class="slider-row">Zoom <input type="range" id="zoomSlider" min="100" max="300" value="100"><span id="zoomVal">100%</span></label>
-      </div>
-    </div>
+      <label class="file-btn">Add your photos
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      </label>
+      <p class="hint">Click a sample, then click a panel to place it. Drag a panel to reposition, zoom with the slider.</p>
+      <div class="samples" id="samples"></div>
+      <button id="fillAllBtn">Fill all panels with this photo</button>
+      <label class="row">Zoom selected panel
+        <input type="range" id="zoomSlider" min="1" max="2.5" step="0.05" value="1.15">
+      </label>
+    </section>
 
-    <div class="group">
+    <section>
       <h2>2 · Layout</h2>
       <div class="picker" id="layoutPicker"></div>
-    </div>
+    </section>
 
-    <div class="group">
+    <section>
       <h2>3 · Colour grade</h2>
       <div class="picker" id="gradePicker"></div>
-      <label class="slider-row">Intensity <input type="range" id="gradeSlider" min="0" max="100" value="80"><span id="gradeVal">80%</span></label>
-    </div>
+      <label class="row">Grade intensity
+        <input type="range" id="gradeSlider" min="0" max="1" step="0.05" value="0.8">
+      </label>
+    </section>
 
-    <div class="group">
-      <h2>4 · Lettering &amp; print details</h2>
-      <label class="field">Title — line 1 <input type="text" id="title1" value="LEONIDA" maxlength="14"></label>
-      <label class="field">Title — line 2 <input type="text" id="title2" value="NIGHTS" maxlength="14"></label>
-      <label class="field">Script subtitle <input type="text" id="subtitle" value="where the sun never sets on the hustle" maxlength="60"></label>
-      <label class="field">Tagline strip <input type="text" id="tagline" value="ONE CITY. EVERY SECRET HAS A VIEW." maxlength="60"></label>
-      <label class="field">Billing block <input type="text" id="billing" value="A FAN-MADE POSTER STUDIO • NOT AFFILIATED WITH ROCKSTAR GAMES • LEONIDA NIGHTS" maxlength="110"></label>
-      <label class="field">Seal text <input type="text" id="sealText" value="EST. 2026 • LEONIDA" maxlength="30"></label>
-      <div class="callouts">
-        <label class="field">Callout 1 <input type="text" id="callout1" value="THE GETAWAY" maxlength="24"></label>
-        <label class="field">Callout 2 <input type="text" id="callout2" value="OCEAN DRIVE" maxlength="24"></label>
-        <label class="field">Callout 3 <input type="text" id="callout3" value="LAST LIGHT" maxlength="24"></label>
-      </div>
-      <div class="toggles">
-        <label><input type="checkbox" id="gradientToggle"> Gradient title (instead of stacked white)</label>
-        <label><input type="checkbox" id="halftoneToggle" checked> Halftone texture</label>
-        <label><input type="checkbox" id="burstToggle" checked> Star-burst badge</label>
-        <label><input type="checkbox" id="ribbonToggle" checked> Corner ribbon</label>
-      </div>
-    </div>
+    <section>
+      <h2>4 · Lettering</h2>
+      <label class="row">Title line 1 <input type="text" id="title1" value="LEONIDA"></label>
+      <label class="row">Title line 2 <input type="text" id="title2" value="NIGHTS"></label>
+      <label class="row">Script subtitle <input type="text" id="subtitle" value="where the sun never sets on the hustle"></label>
+      <label class="row">Tagline strip <input type="text" id="tagline" value="ONE CITY. EVERY SECRET HAS A VIEW."></label>
+      <label class="row">Billing block <input type="text" id="billing" value="A FAN-MADE POSTER STUDIO • NOT AFFILIATED WITH ROCKSTAR GAMES • LEONIDA NIGHTS"></label>
+      <label class="row">Callout 1 <input type="text" id="callout1" value="THE GETAWAY"></label>
+      <label class="row">Callout 2 <input type="text" id="callout2" value="OCEAN DRIVE"></label>
+      <label class="row">Callout 3 <input type="text" id="callout3" value="LAST LIGHT"></label>
+      <label class="check"><input type="checkbox" id="gradientToggle"> Gradient title fill</label>
+      <label class="check"><input type="checkbox" id="halftoneToggle" checked> Halftone texture</label>
+      <label class="check"><input type="checkbox" id="sealToggle" checked> Seal stamp</label>
+      <label class="check"><input type="checkbox" id="burstToggle" checked> Star-burst badge</label>
+      <label class="check"><input type="checkbox" id="ribbonToggle" checked> Corner ribbon</label>
+    </section>
+  </aside>
 
-    <div class="group export-group">
-      <h2>5 · Export PNG</h2>
-      <button type="button" class="btn export-btn" id="exportBtn">⬇ Export PNG</button>
-      <p class="hint">One click, exact size, ready to post.</p>
+  <section class="stage">
+    <canvas id="cover" width="960" height="540"></canvas>
+    <p class="stage-hint">Live preview — click any panel to select it, drag to reposition the photo inside it.</p>
+    <div class="steps">
+      <span><b>1</b> Pick a photo</span><span><b>2</b> Choose a layout &amp; grade</span><span><b>3</b> Edit the caption</span><span><b>4</b> Export PNG</span>
     </div>
-  </section>
-
-  <section class="preview" aria-label="Live preview">
-    <div class="preview-head">
-      <h2>Live preview</h2>
-      <span id="previewSize">1920 × 1080</span>
-    </div>
-    <fieldset class="size-selector preview-size" id="sizeSelector">
-      <legend>Export size</legend>
-      <label><input type="radio" name="exportSize" value="1080x1080"> 1080 × 1080 <span>square</span></label>
-      <label><input type="radio" name="exportSize" value="1080x1350"> 1080 × 1350 <span>portrait</span></label>
-      <label><input type="radio" name="exportSize" value="1920x1080" checked> 1920 × 1080 <span>wide</span></label>
-    </fieldset>
-    <div class="canvas-wrap" id="canvasWrap">
-      <canvas id="coverCanvas" width="960" height="540"></canvas>
-      <div class="canvas-tip">Click a panel to select it · drag to move the photo</div>
-    </div>
-    <p class="preview-note">Fan-made poster studio. Not affiliated with Rockstar Games. No official logos, artwork or fonts.</p>
   </section>
 </main>
 
-<script src="src/main.js"></script>
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
